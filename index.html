@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/app.js"></script>
+</head>
+<body>
+
+<section class="container">
+    <form>
+        <div class="wrapper flex">
+            <div class="calculator">
+
+                <div class="credits">
+                    <h3 class="credits-title">Автокредиты</h3>
+                    <div class="credits-box">
+                        <div>
+                            <input type="radio" id="radioBtn1" class="radio-btn" name="radioGroup">
+                            <label for="radioBtn1" class="radio-label">
+                                <div class="radio-icon"></div>
+                                <span>Новые</span>
+                            </label>
+                        </div>
+                        <div class="credits-info" id="infoPercentNew">
+                            <span>Номинальная ставка</span>
+                            <span class="credits-info-percent">от <b>23,49%</b></span>
+                        </div>
+                    </div>
+
+                    <div class="credits-box">
+                        <div>
+                            <input type="radio" id="radioBtn2" class="radio-btn" name="radioGroup" checked>
+                            <label for="radioBtn2" class="radio-label">
+                                <div class="radio-icon"></div>
+                                <span>С пробегом</span>
+                            </label>
+                        </div>
+                        <div class="credits-info" id="infoPercentOld">
+                            <span>Номинальная ставка</span>
+                            <span class="credits-info-percent">от <b>26,29%</b></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sum-box flex-column">
+                    <div class="sum-info flex">
+                        <span>Желаемая сумма кредита (₸)</span>
+                        <span class="sum-amount">22 млн.</span>
+                    </div>
+
+                    <div>
+                        <input class="range" type="range" min="1" max="50">
+                    </div>
+
+                </div>
+
+                <div class="term-box flex-column">
+                    <div class="term-info flex">
+                        <span>Срок платежа</span>
+                        <span class="term-amount">1 год, 3 месяца</span>
+                    </div>
+
+                    <div>
+                        <input class="range" type="range" min="1" max="50">
+                    </div>
+                </div>
+
+
+                <div class="contacts-box">
+                    <div class="flex-column">
+                        <label for='iin' class="iin-label">Введите Ваш ИИН</label>
+                        <input
+                                class="iin"
+                                type="text"
+                                id="iin"
+                                pattern="[0-9]{12}"
+                                maxlength="12"
+                                placeholder="12345689012"
+                        >
+                        <span class="iin-bonus">+37%</span>
+                    </div>
+
+                    <div class="flex-column">
+                        <label for='phone' class="phone-label">Ваш номер телефона</label>
+                        <input
+                                class="phone"
+                                type="text"
+                                id="phone"
+                                maxlength="22"
+                                placeholder="+7 (___) ___ - __ - __"
+                        >
+                        <span class="phone-bonus">+20%</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="info">
+
+                <div class="info-box">
+                    <div class="info-box-flex">
+                        <img width="24px" height="24px" src="images/vector.svg" alt="payment"/>
+                        <span class="info-box-payment">Ежемесячный платеж</span>
+                    </div>
+                    <span class="info-box-sum">30 000 ₸</span>
+                    <p class="info-box-description">Приведен расчет для выплат равными частями.
+                        Вы также можете выбрать уменьшающиеся выплаты при финальном оформлении.</p>
+                </div>
+
+                <div class="statistics-box">
+                    <div class="statistics-box-flex">
+                        <div class="statistics-overpayment">
+                            <img width="24px" height="24px" src="images/hand.svg" alt="payment"/>
+                            <span class="info-box-payment">Переплата</span>
+                        </div>
+                        <span class="statistics-numbers">12 000 ₸</span>
+                    </div>
+
+                    <div class="statistics-box-flex">
+                        <div class="statistics-overpayment">
+                            <img width="24px" height="24px" src="images/percent.svg" alt="payment"/>
+                            <span class="info-box-payment">Годовая эффективная ставка</span>
+                        </div>
+                        <span class="statistics-numbers">27%</span>
+                    </div>
+                </div>
+
+                <div class="probability-box">
+                    <span class="probability-text">Вероятность к получению персональной ставки</span>
+                    <span class="probability-amount" id="probabilityAmount"><span
+                            id="probabilityPercent">10%</span><span class="progress"></span></span>
+                </div>
+
+                <div class="step-box">
+                    <h4 class="step-title">+57% вероятности за первый шаг</h4>
+                    <p class="step-description">Введите дополнительные данные, такие как ИИН и номер телефона,
+                        и повысьте вероятность получения персональной ставки</p>
+                    <p class="step-offer">Данный расчёт не является публичной офертой ТОО "МФО "SAPA DIGITAL FINANCE".
+                        Уведомляем, что сумма ежемесячных платежей и переплаты не является окончательной и
+                        изменяется в зависимости от выбранных параметров кредитования и тарифов на дату подачи заявки.
+                        За более детальной консультацией необходимо обратиться к нашим партнёрам.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="personal">
+            <label class="custom-checkbox">
+                <input type="checkbox" class="checkbox">
+                <span class="personal-text">Нажимая кнопку, я даю свое согласие на обработку моих персональных данных,
+                    в соответствии с Законом Республики Казахстан от 21 мая 2013 года № 94-V
+                    «О персональных данных и их защите», на условиях и для целей, определенных в Согласии на обработку
+                    персональных данных</span>
+            </label>
+            <button class="submit_btn" type="submit" disabled>Отправить заявку</button>
+        </div>
+    </form>
+</section>
+
+</body>
+</html>
