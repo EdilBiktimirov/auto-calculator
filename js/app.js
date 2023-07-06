@@ -9,6 +9,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const phone = document.querySelector('.phone');
     const progress = document.querySelector('.progress');
     const probabilityPercent = document.getElementById('probabilityPercent');
+    const rangeSum = document.getElementById('rangeSum');
+    const progress_bar = document.getElementById('progress_bar');
+    const progress_bar2 = document.getElementById('progress_bar2');
+    const rangeYear = document.getElementById('rangeYear');
+    const sumAmount = document.querySelector('.sum-amount');
+    const termAmount = document.querySelector('.term-amount');
+    const creditSum = document.querySelector('.info-box-sum');
+    const overpayment = document.querySelector('.statistics-numbers');
+
 
     // Маска для ввода телефона
     [].forEach.call(document.querySelectorAll('.phone'), function (input) {
@@ -113,6 +122,120 @@ document.addEventListener("DOMContentLoaded", function () {
             isPhone = false;
         }
     });
+
+
+    // Функция конвертирования месяцев в года с месяцами
+    function convertMonthsToYears(months) {
+        const years = Math.floor(months / 12);
+        const remainingMonths = months % 12;
+
+        let yearsString = years === 0 ? "" : (years + " год");
+        let monthsString = remainingMonths + " месяц";
+
+        if (months === 0) {
+            return "0 месяцев";
+        }
+
+        if (years === 0) {
+            return monthsString + (remainingMonths !== 1 ? "a" : "");
+        }
+
+        if (years >= 5 && years <= 20) {
+            yearsString = years + " лет";
+        } else {
+            const lastDigit = years % 10;
+            yearsString += (lastDigit === 1 ? "" : (lastDigit >= 2 && lastDigit <= 4 ? "а" : "ов"));
+        }
+
+        if (remainingMonths !== 1) {
+            monthsString += "a";
+        }
+
+        return yearsString + (remainingMonths === 0 ? "" : " " + monthsString);
+    }
+
+
+//Функция расчета размера кредита
+    function calculateAnnuityPayment(creditSum, annualInterestRate, termMonth, isNumber) {
+        const monthlyInterestRate = annualInterestRate / 12;
+        const exponent = Math.pow(1 + monthlyInterestRate, termMonth);
+        const annuityPayment = ((creditSum * 1000000) * monthlyInterestRate * exponent) / (exponent - 1);
+        if (isNumber) return Math.round(annuityPayment);
+        return Math.round(annuityPayment).toLocaleString() + ' ₸';
+
+    }
+
+//Функция расчета переплаты по кредиту
+    function calculateOverpayment(annuityPayment, termMonth, creditSum) {
+        const totalPayment = annuityPayment * termMonth;
+        const overpayment = totalPayment - (creditSum * 1000000);
+        return overpayment.toLocaleString() + ' ₸';
+    }
+
+
+    // Устанавливаем значения суммы, переплаты, срока кредита
+    termAmount.innerText = convertMonthsToYears(rangeYear.value);
+
+    creditSum.innerText = calculateAnnuityPayment(
+        parseInt(rangeSum.value),
+        0.27,
+        parseInt(rangeYear.value));
+
+    overpayment.innerText = calculateOverpayment(
+        calculateAnnuityPayment(
+            parseInt(rangeSum.value),
+            0.27,
+            parseInt(rangeYear.value),
+            true),
+        parseInt(rangeYear.value),
+        parseInt(rangeSum.value)
+    );
+
+
+    // Подключаем вывод значений range input
+    rangeSum.addEventListener('input', () => {
+        sumAmount.innerText = rangeSum.value + ' млн.';
+        const percentage = ((rangeSum.value - 1) / (51 - 1)) * 100;
+        progress_bar.style.width = percentage + '%';
+
+        creditSum.innerText = calculateAnnuityPayment(
+            parseInt(rangeSum.value),
+            0.27,
+            parseInt(rangeYear.value));
+
+        overpayment.innerText = calculateOverpayment(
+            calculateAnnuityPayment(
+                parseInt(rangeSum.value),
+                0.27,
+                parseInt(rangeYear.value),
+                true),
+            parseInt(rangeYear.value),
+            parseInt(rangeSum.value)
+        );
+    });
+
+
+    rangeYear.addEventListener('input', () => {
+        termAmount.innerText = convertMonthsToYears(rangeYear.value);
+        const percentage = ((rangeYear.value - 1) / (85 - 1)) * 100;
+        progress_bar2.style.width = percentage + '%';
+
+        creditSum.innerText = calculateAnnuityPayment(
+            parseInt(rangeSum.value),
+            0.27,
+            parseInt(rangeYear.value));
+
+        overpayment.innerText = calculateOverpayment(
+            calculateAnnuityPayment(
+                parseInt(rangeSum.value),
+                0.27,
+                parseInt(rangeYear.value),
+                true),
+            parseInt(rangeYear.value),
+            parseInt(rangeSum.value)
+        );
+    });
+
 
 });
 
