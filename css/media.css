@@ -1,0 +1,198 @@
+@media screen and (max-width: 980px) {
+    .flex {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .calculator {
+        padding: 0;
+    }
+
+    .info {
+        max-width: 100%;
+        border: none;
+        padding: 0;
+    }
+
+    .personal {
+        flex-direction: column;
+        align-items: center;
+        gap: 17px;
+    }
+
+}
+
+@media screen and (max-width: 650px) {
+    .credits {
+        flex-wrap: wrap;
+        gap: 26px;
+    }
+
+    .radio-label span {
+        font-size: 14px;
+    }
+
+    .credits-title {
+        font-size: 16px;
+        flex-basis: 100%;
+    }
+
+
+    .sum-title {
+        font-size: 12px;
+    }
+
+    .sum-amount {
+        font-size: 16px;
+    }
+
+    .sum-box {
+        margin-bottom: 26px;
+    }
+
+    .sum-info {
+        margin-bottom: 12px;
+    }
+
+    .flex-gap {
+        gap: 6px
+    }
+
+    .datalist {
+        margin-top: 10px;
+    }
+
+    .datalist span {
+        font-size: 12px;
+    }
+
+    .dotted {
+        visibility: hidden;
+    }
+
+    .term-title {
+        font-size: 12px;
+    }
+
+    .term-amount {
+        font-size: 16px;
+    }
+
+    .term-box {
+        margin-bottom: 26px;
+    }
+
+    .term-info {
+        margin-bottom: 12px;
+    }
+    /*.flex-column {*/
+    /*    gap: 26px;*/
+    /*}*/
+
+
+    .iin-label {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    .iin-bonus {
+        top: 42px;
+        right: 15px;
+    }
+
+    .phone-label {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+
+    .contacts-box {
+        gap: 19px
+    }
+
+    .info-box-payment {
+        font-size: 12px;
+        max-width: 100px;
+    }
+
+    .info-box-sum {
+        font-size: 22px;
+    }
+
+    .info-box-flex {
+        margin-bottom: 8px;
+    }
+
+    .info-box-description {
+        margin: 11px 0 0;
+        font-size: 10px;
+    }
+
+
+    .statistics-box {
+        margin: 25px 0;
+    }
+
+    .statistics-box > div:first-child {
+        order: 1;
+    }
+
+    .statistics-numbers {
+        font-size: 16px;
+    }
+
+    .probability-text {
+        font-size: 12px;
+    }
+
+    .probability-box {
+        margin-bottom: 25px;
+    }
+
+    .step-title {
+        font-size: 18px;
+    }
+
+    .step-description {
+        margin: 12px 0 15px;
+        font-size: 12px;
+    }
+
+    .step-offer {
+        font-size: 12px;
+    }
+
+    .personal-text {
+        font-size: 10px;
+    }
+
+    .submit_btn {
+        width: 256px;
+        font-size: 14px;
+        padding: 24px;
+    }
+
+    /*.personal-text::before {*/
+    /*    width: 22px;*/
+    /*    height: 22px;*/
+    /*}*/
+
+}
+
+@media screen and (max-width: 420px) {
+    /*.credits {*/
+    /*    gap: 0;*/
+    /*}*/
+
+    .wrapper {
+        padding: 16px 13px;
+    }
+
+    .credits-box {
+        margin-bottom: 0;
+    }
+
+    .sum-box {
+        margin-top: 45px;
+    }
+}

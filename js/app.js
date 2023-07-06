@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const termAmount = document.querySelector('.term-amount');
     const creditSum = document.querySelector('.info-box-sum');
     const overpayment = document.querySelector('.statistics-numbers');
+    const bid = document.getElementById('bid');
 
 
     // Маска для ввода телефона
@@ -101,11 +102,20 @@ document.addEventListener("DOMContentLoaded", function () {
             probabilityPercent.innerText = counter + '%';
             progress.style.width = counter.toString() + '%';
             isInn = true;
+            console.log(probabilityPercent.innerText)
+            if (probabilityPercent.innerText > '47%') {
+                // probabilityPercent.classList.add('color-white');
+                probabilityPercent.style.color = '#fff'
+            }
         } else if (iin.value.length < 12 && isInn) {
             counter = counter - iinProbabilityBonus;
             probabilityPercent.innerText = counter + '%';
             progress.style.width = counter.toString() + '%';
             isInn = false;
+            if (probabilityPercent.innerText <= '47%') {
+                // probabilityPercent.classList.add('color-white');
+                probabilityPercent.style.color = '#7A89A8'
+            }
         }
     });
 
@@ -115,16 +125,54 @@ document.addEventListener("DOMContentLoaded", function () {
             probabilityPercent.innerText = counter + '%';
             progress.style.width = counter.toString() + '%';
             isPhone = true;
+            if (probabilityPercent.innerText > '47%') {
+                // probabilityPercent.classList.add('color-white');
+                probabilityPercent.style.color = '#fff'
+            }
         } else if (phone.value.length < 22 && isPhone) {
             counter = counter - phoneProbabilityBonus;
             probabilityPercent.innerText = counter + '%';
             progress.style.width = counter.toString() + '%';
             isPhone = false;
+            if (probabilityPercent.innerText <= '47%') {
+                // probabilityPercent.classList.add('color-white');
+                probabilityPercent.style.color = '#7A89A8'
+            }
         }
     });
 
 
     // Функция конвертирования месяцев в года с месяцами
+    // function convertMonthsToYears(months) {
+    //     const years = Math.floor(months / 12);
+    //     const remainingMonths = months % 12;
+    //
+    //     let yearsString = years === 0 ? "" : (years + " год");
+    //     let monthsString = remainingMonths + " месяц";
+    //
+    //     if (months === 0) {
+    //         return "0 месяцев";
+    //     }
+    //
+    //     if (years === 0) {
+    //         return monthsString + (remainingMonths !== 1 ? "a" : "");
+    //     }
+    //
+    //     if (years >= 5 && years <= 20) {
+    //         yearsString = years + " лет";
+    //     } else {
+    //         const lastDigit = years % 10;
+    //         yearsString += (lastDigit === 1 ? "" : (lastDigit >= 2 && lastDigit <= 4 ? "а" : "ов"));
+    //     }
+    //
+    //     if (remainingMonths !== 1) {
+    //         monthsString += "a";
+    //     }
+    //
+    //     return yearsString + (remainingMonths === 0 ? "" : " " + monthsString);
+    // }
+
+
     function convertMonthsToYears(months) {
         const years = Math.floor(months / 12);
         const remainingMonths = months % 12;
@@ -136,8 +184,14 @@ document.addEventListener("DOMContentLoaded", function () {
             return "0 месяцев";
         }
 
+        if (remainingMonths >= 5 && remainingMonths <= 12) {
+            monthsString += "ев";
+        } else {
+            monthsString += (remainingMonths !== 1 ? "а" : "");
+        }
+
         if (years === 0) {
-            return monthsString + (remainingMonths !== 1 ? "a" : "");
+            return monthsString;
         }
 
         if (years >= 5 && years <= 20) {
@@ -147,12 +201,9 @@ document.addEventListener("DOMContentLoaded", function () {
             yearsString += (lastDigit === 1 ? "" : (lastDigit >= 2 && lastDigit <= 4 ? "а" : "ов"));
         }
 
-        if (remainingMonths !== 1) {
-            monthsString += "a";
-        }
-
         return yearsString + (remainingMonths === 0 ? "" : " " + monthsString);
     }
+
 
 
 //Функция расчета размера кредита
@@ -236,6 +287,18 @@ document.addEventListener("DOMContentLoaded", function () {
         );
     });
 
+
+    if (window.innerWidth < 650) {
+        bid.innerText = 'ГЭСВ'; // Изменить текст при ширине экрана < 650px
+    }
+
+    window.addEventListener('resize', function() {
+        if (window.innerWidth < 650) {
+            bid.innerText = 'ГЭСВ';
+        } else {
+            bid.innerText = 'Годовая Эффективная Ставка';
+        }
+    });
 
 });
 

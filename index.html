@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/media.css">
     <script type="text/javascript" src="js/app.js"></script>
 </head>
 <body>
@@ -52,8 +53,8 @@
                 </div>
 
                 <div class="sum-box flex-column">
-                    <div class="sum-info flex">
-                        <span>Желаемая сумма кредита (₸)</span>
+                    <div class="sum-info flex-gap">
+                        <span class="sum-title">Желаемая сумма кредита (₸)</span>
                         <span class="sum-amount">1 млн.</span>
                     </div>
 
@@ -62,8 +63,8 @@
                         <span class="progress_bar" id="progress_bar"></span>
                         <div class="datalist">
                             <span>1 млн. ₸</span>
-                            <span>17 млн. ₸</span>
-                            <span>33 млн. ₸</span>
+                            <div style="position: relative"><span class="dotted">17 млн. ₸</span></div>
+                            <div style="position: relative"><span class="dotted">33 млн. ₸</span></div>
                             <span>50 млн. ₸</span>
                         </div>
                     </div>
@@ -71,8 +72,8 @@
                 </div>
 
                 <div class="term-box flex-column">
-                    <div class="term-info flex">
-                        <span>Срок платежа</span>
+                    <div class="term-info flex-gap">
+                        <span class="term-title">Срок платежа</span>
                         <span class="term-amount">1 месяц</span>
                     </div>
 
@@ -123,7 +124,7 @@
                         <img width="24px" height="24px" src="images/vector.svg" alt="payment"/>
                         <span class="info-box-payment">Ежемесячный платеж</span>
                     </div>
-                        <span class="info-box-sum"></span>
+                    <span class="info-box-sum"></span>
                     <p class="info-box-description">Приведен расчет для выплат равными частями.
                         Вы также можете выбрать уменьшающиеся выплаты при финальном оформлении.</p>
                 </div>
@@ -140,7 +141,7 @@
                     <div class="statistics-box-flex">
                         <div class="statistics-overpayment">
                             <img width="24px" height="24px" src="images/percent.svg" alt="payment"/>
-                            <span class="info-box-payment">Годовая эффективная ставка</span>
+                            <span class="info-box-payment" id="bid">Годовая Эффективная Ставка</span>
                         </div>
                         <span class="statistics-numbers">27%</span>
                     </div>
