@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const personalCheckbox = document.querySelector('.checkbox');
     const submitBtn = document.querySelector('.submit_btn');
     const radioNew = document.getElementById('radioBtn1');
+    const radioOld = document.getElementById('radioBtn2');
     const creditPercentNew = document.getElementById('infoPercentNew');
     const creditPercentOld = document.getElementById('infoPercentOld');
     const radios = document.querySelectorAll('.radio-btn');
@@ -18,13 +19,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const creditSum = document.querySelector('.info-box-sum');
     const overpayment = document.querySelector('.statistics-numbers');
     const bid = document.getElementById('bid');
-    const modalBtn = document.querySelector('.modal-btn');
-    const modal = document.querySelector('.modal');
+    const modalSuccess = document.getElementById('modalSuccess');
+    const modalError = document.getElementById('modalError');
+    const btnSuccess = document.getElementById('btnSuccess');
+    const btnError = document.getElementById('btnError')
+    const form = document.querySelector('form');
+    const annualRate = document.getElementById('annualRate')
 
-    const annualRate = 0.27; // Годовая эффективная ставка 27%
+    const annualRateNew = 0.2349; // Годовая эффективная ставка для новых автомобилей 23,49%
+    const annualRateOld = 0.2629; // Годовая эффективная ставка для поддержанных автомобилей 26,29%
 
-        // Маска для ввода телефона
-        [].forEach.call(document.querySelectorAll('.phone'), function (input) {
+    // Маска для ввода телефона
+    [].forEach.call(document.querySelectorAll('.phone'), function (input) {
         let keyCode;
 
         function mask(event) {
@@ -55,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // Добавление слушателей событий для маскирования
         input.addEventListener("input", mask, false);
         input.addEventListener("focus", mask, false);
         input.addEventListener("blur", mask, false);
@@ -79,15 +84,46 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Выводим Номинальную ставку в зависимости от выбранного типа машин
+    // Выводим Номинальную ставку в зависимости от выбранного типа автомобилей
+    if (radioOld.checked) annualRate.innerText = (annualRateOld * 100).toFixed(2) + '%';
+
     creditPercentNew.style.visibility = 'hidden';
     radios.forEach(radio => radio.addEventListener('change', () => {
             if (radioNew.checked) {
                 creditPercentNew.style.visibility = 'visible';
                 creditPercentOld.style.visibility = 'hidden';
+                annualRate.innerText = (annualRateNew * 100).toFixed(2) + '%';
+                overpayment.innerText = calculateOverpayment(
+                    calculateAnnuityPayment(
+                        parseInt(rangeSum.value),
+                        annualRateNew,
+                        parseInt(rangeYear.value),
+                        true),
+                    parseInt(rangeYear.value),
+                    parseInt(rangeSum.value)
+                );
+
+                creditSum.innerText = calculateAnnuityPayment(
+                    parseInt(rangeSum.value),
+                    annualRateNew,
+                    parseInt(rangeYear.value));
             } else {
                 creditPercentOld.style.visibility = 'visible';
                 creditPercentNew.style.visibility = 'hidden';
+                annualRate.innerText = (annualRateOld * 100).toFixed(2) + '%';
+                overpayment.innerText = calculateOverpayment(
+                    calculateAnnuityPayment(
+                        parseInt(rangeSum.value),
+                        annualRateOld,
+                        parseInt(rangeYear.value),
+                        true),
+                    parseInt(rangeYear.value),
+                    parseInt(rangeSum.value));
+
+                creditSum.innerText = calculateAnnuityPayment(
+                    parseInt(rangeSum.value),
+                    annualRateOld,
+                    parseInt(rangeYear.value));
             }
         }
     ));
@@ -105,9 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
             probabilityPercent.innerText = counter + '%';
             progress.style.width = counter.toString() + '%';
             isInn = true;
-            console.log(probabilityPercent.innerText)
             if (probabilityPercent.innerText > '47%') {
-                // probabilityPercent.classList.add('color-white');
                 probabilityPercent.style.color = '#fff'
             }
         } else if (iin.value.length < 12 && isInn) {
@@ -116,7 +150,6 @@ document.addEventListener("DOMContentLoaded", function () {
             progress.style.width = counter.toString() + '%';
             isInn = false;
             if (probabilityPercent.innerText <= '47%') {
-                // probabilityPercent.classList.add('color-white');
                 probabilityPercent.style.color = '#7A89A8'
             }
         }
@@ -129,7 +162,6 @@ document.addEventListener("DOMContentLoaded", function () {
             progress.style.width = counter.toString() + '%';
             isPhone = true;
             if (probabilityPercent.innerText > '47%') {
-                // probabilityPercent.classList.add('color-white');
                 probabilityPercent.style.color = '#fff'
             }
         } else if (phone.value.length < 22 && isPhone) {
@@ -138,12 +170,10 @@ document.addEventListener("DOMContentLoaded", function () {
             progress.style.width = counter.toString() + '%';
             isPhone = false;
             if (probabilityPercent.innerText <= '47%') {
-                // probabilityPercent.classList.add('color-white');
                 probabilityPercent.style.color = '#7A89A8'
             }
         }
     });
-
 
     // Функция конвертирования месяцев в года с месяцами
     function convertMonthsToYears(months) {
@@ -177,7 +207,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return yearsString + (remainingMonths === 0 ? "" : " " + monthsString);
     }
 
-
     //Функция расчета размера кредита
     function calculateAnnuityPayment(creditSum, annualInterestRate, termMonth, isNumber) {
         const monthlyInterestRate = annualInterestRate / 12;
@@ -194,19 +223,29 @@ document.addEventListener("DOMContentLoaded", function () {
         return overpayment.toLocaleString() + ' ₸';
     }
 
-
     // Устанавливаем значения суммы, переплаты, срока кредита
     termAmount.innerText = convertMonthsToYears(rangeYear.value);
 
-    creditSum.innerText = calculateAnnuityPayment(
+    creditSum.innerText = radioNew.checked ? calculateAnnuityPayment(
         parseInt(rangeSum.value),
-        annualRate,
+        annualRateNew,
+        parseInt(rangeYear.value)) : calculateAnnuityPayment(
+        parseInt(rangeSum.value),
+        annualRateOld,
         parseInt(rangeYear.value));
 
-    overpayment.innerText = calculateOverpayment(
+    overpayment.innerText = radioNew.checked ? calculateOverpayment(
         calculateAnnuityPayment(
             parseInt(rangeSum.value),
-            annualRate,
+            annualRateNew,
+            parseInt(rangeYear.value),
+            true),
+        parseInt(rangeYear.value),
+        parseInt(rangeSum.value)
+    ) : calculateOverpayment(
+        calculateAnnuityPayment(
+            parseInt(rangeSum.value),
+            annualRateOld,
             parseInt(rangeYear.value),
             true),
         parseInt(rangeYear.value),
@@ -219,15 +258,26 @@ document.addEventListener("DOMContentLoaded", function () {
         const percentage = ((rangeSum.value - 1) / (51 - 1)) * 100;
         progress_bar.style.width = percentage + '%';
 
-        creditSum.innerText = calculateAnnuityPayment(
+        creditSum.innerText = radioNew.checked ? calculateAnnuityPayment(
             parseInt(rangeSum.value),
-            annualRate,
+            annualRateNew,
+            parseInt(rangeYear.value)) : calculateAnnuityPayment(
+            parseInt(rangeSum.value),
+            annualRateOld,
             parseInt(rangeYear.value));
 
-        overpayment.innerText = calculateOverpayment(
+        overpayment.innerText = radioNew.checked ? calculateOverpayment(
             calculateAnnuityPayment(
                 parseInt(rangeSum.value),
-                annualRate,
+                annualRateNew,
+                parseInt(rangeYear.value),
+                true),
+            parseInt(rangeYear.value),
+            parseInt(rangeSum.value)
+        ) : calculateOverpayment(
+            calculateAnnuityPayment(
+                parseInt(rangeSum.value),
+                annualRateOld,
                 parseInt(rangeYear.value),
                 true),
             parseInt(rangeYear.value),
@@ -240,15 +290,26 @@ document.addEventListener("DOMContentLoaded", function () {
         const percentage = ((rangeYear.value - 1) / (85 - 1)) * 100;
         progress_bar2.style.width = percentage + '%';
 
-        creditSum.innerText = calculateAnnuityPayment(
+        creditSum.innerText = radioNew.checked ? calculateAnnuityPayment(
             parseInt(rangeSum.value),
-            annualRate,
+            annualRateNew,
+            parseInt(rangeYear.value)) : calculateAnnuityPayment(
+            parseInt(rangeSum.value),
+            annualRateOld,
             parseInt(rangeYear.value));
 
-        overpayment.innerText = calculateOverpayment(
+        overpayment.innerText = radioNew.checked ? calculateOverpayment(
             calculateAnnuityPayment(
                 parseInt(rangeSum.value),
-                annualRate,
+                annualRateNew,
+                parseInt(rangeYear.value),
+                true),
+            parseInt(rangeYear.value),
+            parseInt(rangeSum.value)
+        ) : calculateOverpayment(
+            calculateAnnuityPayment(
+                parseInt(rangeSum.value),
+                annualRateOld,
                 parseInt(rangeYear.value),
                 true),
             parseInt(rangeYear.value),
@@ -270,10 +331,29 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     //Закрываем модалку при нажатии на кнопку "Вернуться"
-    modalBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
+    btnSuccess.addEventListener('click', () => {
+        modalSuccess.style.display = 'none';
     });
 
+    btnError.addEventListener('click', () => {
+        modalError.style.display = 'none';
+    });
+
+    //Отправка данных формы, вывод успешной/неуспешной модалки
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form); // Создаем объект FormData, передавая ему элемент <form>
+        const formValues = Object.fromEntries(formData.entries()); // Преобразуем данные формы в объект
+
+        try {
+            let response = await fetch('https://jsonplaceholder.typicode.com');
+
+            if (response.ok) modalSuccess.style.display = 'flex';
+        } catch {
+            modalError.style.display = 'flex';
+        }
+    });
 });
 
 
