@@ -85,11 +85,10 @@
     .term-info {
         margin-bottom: 12px;
     }
+
     /*.flex-column {*/
     /*    gap: 26px;*/
     /*}*/
-
-
     .iin-label {
         font-size: 12px;
         margin-bottom: 12px;
@@ -171,18 +170,20 @@
         font-size: 14px;
         padding: 24px;
     }
-
-    /*.personal-text::before {*/
-    /*    width: 22px;*/
-    /*    height: 22px;*/
-    /*}*/
-
 }
 
 @media screen and (max-width: 420px) {
-    /*.credits {*/
-    /*    gap: 0;*/
-    /*}*/
+    .credits {
+        gap: 5px;
+    }
+
+    .credits-title {
+        margin-bottom: 26px;
+    }
+
+    .credits-info-text {
+        width: 70%;
+    }
 
     .wrapper {
         padding: 16px 13px;
@@ -193,6 +194,19 @@
     }
 
     .sum-box {
-        margin-top: 45px;
+        margin-top: 26px;
+    }
+
+    .modal-title {
+        font-size: 22px;
+    }
+
+    .modal-text {
+        font-size: 14px;
+    }
+
+    .modal-btn {
+        font-size: 16px;
+        font-weight: 700;
     }
 }

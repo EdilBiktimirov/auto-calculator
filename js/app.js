@@ -18,10 +18,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const creditSum = document.querySelector('.info-box-sum');
     const overpayment = document.querySelector('.statistics-numbers');
     const bid = document.getElementById('bid');
+    const modalBtn = document.querySelector('.modal-btn');
+    const modal = document.querySelector('.modal');
 
+    const annualRate = 0.27; // Годовая эффективная ставка 27%
 
-    // Маска для ввода телефона
-    [].forEach.call(document.querySelectorAll('.phone'), function (input) {
+        // Маска для ввода телефона
+        [].forEach.call(document.querySelectorAll('.phone'), function (input) {
         let keyCode;
 
         function mask(event) {
@@ -143,36 +146,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // Функция конвертирования месяцев в года с месяцами
-    // function convertMonthsToYears(months) {
-    //     const years = Math.floor(months / 12);
-    //     const remainingMonths = months % 12;
-    //
-    //     let yearsString = years === 0 ? "" : (years + " год");
-    //     let monthsString = remainingMonths + " месяц";
-    //
-    //     if (months === 0) {
-    //         return "0 месяцев";
-    //     }
-    //
-    //     if (years === 0) {
-    //         return monthsString + (remainingMonths !== 1 ? "a" : "");
-    //     }
-    //
-    //     if (years >= 5 && years <= 20) {
-    //         yearsString = years + " лет";
-    //     } else {
-    //         const lastDigit = years % 10;
-    //         yearsString += (lastDigit === 1 ? "" : (lastDigit >= 2 && lastDigit <= 4 ? "а" : "ов"));
-    //     }
-    //
-    //     if (remainingMonths !== 1) {
-    //         monthsString += "a";
-    //     }
-    //
-    //     return yearsString + (remainingMonths === 0 ? "" : " " + monthsString);
-    // }
-
-
     function convertMonthsToYears(months) {
         const years = Math.floor(months / 12);
         const remainingMonths = months % 12;
@@ -205,18 +178,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-
-//Функция расчета размера кредита
+    //Функция расчета размера кредита
     function calculateAnnuityPayment(creditSum, annualInterestRate, termMonth, isNumber) {
         const monthlyInterestRate = annualInterestRate / 12;
         const exponent = Math.pow(1 + monthlyInterestRate, termMonth);
         const annuityPayment = ((creditSum * 1000000) * monthlyInterestRate * exponent) / (exponent - 1);
         if (isNumber) return Math.round(annuityPayment);
         return Math.round(annuityPayment).toLocaleString() + ' ₸';
-
     }
 
-//Функция расчета переплаты по кредиту
+    //Функция расчета переплаты по кредиту
     function calculateOverpayment(annuityPayment, termMonth, creditSum) {
         const totalPayment = annuityPayment * termMonth;
         const overpayment = totalPayment - (creditSum * 1000000);
@@ -229,19 +200,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     creditSum.innerText = calculateAnnuityPayment(
         parseInt(rangeSum.value),
-        0.27,
+        annualRate,
         parseInt(rangeYear.value));
 
     overpayment.innerText = calculateOverpayment(
         calculateAnnuityPayment(
             parseInt(rangeSum.value),
-            0.27,
+            annualRate,
             parseInt(rangeYear.value),
             true),
         parseInt(rangeYear.value),
         parseInt(rangeSum.value)
     );
-
 
     // Подключаем вывод значений range input
     rangeSum.addEventListener('input', () => {
@@ -251,20 +221,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         creditSum.innerText = calculateAnnuityPayment(
             parseInt(rangeSum.value),
-            0.27,
+            annualRate,
             parseInt(rangeYear.value));
 
         overpayment.innerText = calculateOverpayment(
             calculateAnnuityPayment(
                 parseInt(rangeSum.value),
-                0.27,
+                annualRate,
                 parseInt(rangeYear.value),
                 true),
             parseInt(rangeYear.value),
             parseInt(rangeSum.value)
         );
     });
-
 
     rangeYear.addEventListener('input', () => {
         termAmount.innerText = convertMonthsToYears(rangeYear.value);
@@ -273,13 +242,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         creditSum.innerText = calculateAnnuityPayment(
             parseInt(rangeSum.value),
-            0.27,
+            annualRate,
             parseInt(rangeYear.value));
 
         overpayment.innerText = calculateOverpayment(
             calculateAnnuityPayment(
                 parseInt(rangeSum.value),
-                0.27,
+                annualRate,
                 parseInt(rangeYear.value),
                 true),
             parseInt(rangeYear.value),
@@ -287,17 +256,22 @@ document.addEventListener("DOMContentLoaded", function () {
         );
     });
 
-
+    // Изменить текст при ширине экрана < 650px
     if (window.innerWidth < 650) {
-        bid.innerText = 'ГЭСВ'; // Изменить текст при ширине экрана < 650px
+        bid.innerText = 'ГЭСВ';
     }
 
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         if (window.innerWidth < 650) {
             bid.innerText = 'ГЭСВ';
         } else {
             bid.innerText = 'Годовая Эффективная Ставка';
         }
+    });
+
+    //Закрываем модалку при нажатии на кнопку "Вернуться"
+    modalBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
     });
 
 });
